@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    container_name: "django-c01"
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: mydjangoapp
+      POSTGRES_USER: mydjangoappuser
+      POSTGRES_PASSWORD: mysecretpassword
+    container_name: "postgres-co2"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    container_name: "nginx-c03"
+
